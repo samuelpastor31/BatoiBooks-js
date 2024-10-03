@@ -3,7 +3,7 @@
 //object: recibe el array de libros y una id y devuelve el libro con dicha id. SI no existe lanzará una excepción
 function getBookById(books, bookId) {
     const bookBuscado = books.find(book => book.id === bookId);
-    if (bookBuscado == undefined){
+    if (!bookBuscado){
         throw new Error("No existe book con el id "+bookId);
     }
     return bookBuscado;
@@ -12,7 +12,7 @@ function getBookById(books, bookId) {
 //number: igual pero devuelve la posición del libro dentro del array. SI no existe lanzará una excepción
 function getBookIndexById(books, bookId) {
     const bookBuscado = books.findIndex(book => book.id === bookId);
-    if (bookBuscado){
+    if (bookBuscado === -1){
         throw new Error("No existe book con el id "+bookId);
     }
     return bookBuscado;
@@ -20,10 +20,8 @@ function getBookIndexById(books, bookId) {
 
 //: boolean: recibe el array de libros, la id del usuario y el código del módulo y nos dice si ese usuario ya tiene un libro con ese código
 function bookExists(books, userId, moduleCode) {
-
     const bookUsuario = books.find(book => book.userId === userId && book.moduleCode === moduleCode);
-
-    if (bookUsuario === undefined){
+    if (!bookUsuario){
         return false;
     }else{
         return true;
@@ -71,7 +69,6 @@ function averagePriceOfBooks(books) {
 //array: recibe el array de libros y devuelve un array con todos los que son apuntes
 function booksOfTypeNotes(books) {
     const librosEstado = books.filter(book => book.publisher === "Apunts"); 
-
     return librosEstado;
 }
 

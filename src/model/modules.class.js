@@ -6,16 +6,15 @@ export default class Modules {
   }
 
   populate(modules) {
-    for (let index in modules) {
-      const module = modules[index];
-      let moduleNuevo = new Module(
-        module.code,
-        module.cliteral,
-        module.vliteral,
-        module.courseId
-      );
-      this.data.push(moduleNuevo);
-    }
+    modules.forEach(module => {
+        let moduleNuevo = new Module(
+            module.code,
+            module.cliteral,
+            module.vliteral,
+            module.courseId
+          );
+          this.data.push(moduleNuevo);
+    });
   }
 
   toString() {

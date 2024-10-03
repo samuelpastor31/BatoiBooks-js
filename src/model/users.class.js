@@ -6,11 +6,10 @@ export default class Users {
   }
 
   populate(users) {
-    for (let index in users) {
-      const user = users[index];
-      this.data.push(new User(user.id, user.nick, user.email, user.password));
+    users.forEach(user => {
+        this.data.push(new User(user.id, user.nick, user.email, user.password));
+    });
     }
-  }
 
   addUser(user) {
     const newUser = new User(user.id, user.nick, user.email, user.password);

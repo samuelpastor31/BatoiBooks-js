@@ -6,9 +6,9 @@ export default class Books {
   }
 
   populate(books) {
-    for (let index in books) {
-      this.data.push(new Book(books[index]));
-    }
+    books.forEach(book => {
+      this.data.push(new Book(book));
+    });
   }
 
   addBook(libro) {

@@ -1,19 +1,28 @@
 import Book from "./book.class";
+import { getDBBooks } from "../services/books.api";
+import { changeDBBook } from "../services/books.api";
+import { addBook } from "../services/books.api";
+import { removeDBBook } from "../services/books.api";
+const NOTES = "Apunts";
 
 export default class Books {
   constructor() {
     this.data = [];
   }
 
-  populate(books) {
+  async populate() {
+    const books = await getDBBooks();
     books.forEach(book => {
       this.data.push(new Book(book));
     });
   }
 
-  addBook(libro) {
-    const newBook = new Book(libro);
-    if (this.data.length != 0) {
+  async addBook(libro) {
+    const libroNuevo = await addBook(libro);
+    const newBook = new Book(libroNuevo);
+    if (this.data.length === 0) {
+      newBook.id = 1;
+    } else {
       const bookIdMaximo = this.data.reduce((max, book) =>
         book.id > max.id ? book : max
       );
@@ -23,23 +32,18 @@ export default class Books {
     return newBook;
   }
 
-  removeBook(id) {
-    const book = this.data.findIndex((book) => book.id == id);
-    if (book === -1) {
-      throw new Error("No existe el libro con id " + id);
-    } else {
-      this.data.splice(book, 1);
-    }
+  async removeBook(id) {
+    await removeDBBook(id);
+    const book = this.getBookIndexById(id);
+    this.data.splice(book, 1);
   }
 
-  changeBook(bookNuevo) {
-    const book = this.data.findIndex((book) => book.id == bookNuevo.id);
-    if (book === -1) {
-      throw new Error("No existe el libro con id " + bookNuevo.id);
-    } else {
-      this.data.splice(book, 1, bookNuevo);
-    }
-    return bookNuevo;
+  async changeBook(book) {
+    const newBook = await changeDBBook(book);
+    const index = this.getBookIndexById(newBook.id);
+    const modifiedbook = new Book(newBook);
+    this.data.splice(index, 1, modifiedbook);
+    return modifiedbook;
   }
 
   toString() {
@@ -110,7 +114,7 @@ export default class Books {
   }
 
   booksOfTypeNotes() {
-    const librosEstado = this.data.filter((book) => book.publisher === "Apunts");
+    const librosEstado = this.data.filter((book) => book.publisher === NOTES);
     return librosEstado;
   }
 
@@ -118,12 +122,5 @@ export default class Books {
     const librosEstado = this.data.filter((book) => book.soldDate == "");
 
     return librosEstado;
-  }
-
-  incrementPriceOfbooks(percentage) {
-    return Array.from(this.data).map((book) => ({
-      ...book,
-      price: book.price + book.price * percentage,
-    }));
   }
 }

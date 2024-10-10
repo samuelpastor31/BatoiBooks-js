@@ -1,11 +1,14 @@
 import Module from "./module.class";
+import { getDBModules } from "../services/modules.api";
 
 export default class Modules {
   constructor() {
     this.data = [];
   }
 
-  populate(modules) {
+  async populate() {
+    //recibe datos de la api y rellena this.data con todos los datos
+    const modules = await getDBModules();
     modules.forEach(module => {
         let moduleNuevo = new Module(
             module.code,

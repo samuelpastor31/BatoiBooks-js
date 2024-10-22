@@ -39,21 +39,21 @@ document.querySelector("#app").innerHTML = `
 
       <div>
         <label for="price">Precio:</label>
-        <input type="number" id="price">
+        <input type="number" id="price" required min="0">
       </div>
 
       <div>
         <label for="pages">Páginas:</label>
-        <input type="number" id="pages">
+        <input type="number" id="pages" required min="0">
       </div>
 
       <div>
         <label>Estado:</label>
-        <input type="radio" id="status" name="status" value="good">
+        <input type="radio" id="status" name="status" value="good" required>
         <label for="good">Bueno</label>
-        <input type="radio" id="status" name="status" value="bad">
+        <input type="radio" id="status" name="status" value="bad" required>
         <label for="bad">Malo</label>
-        <input type="radio" id="status" name="status" value="new">
+        <input type="radio" id="status" name="status" value="new" required>
         <label for="new">Nuevo</label>
       </div>
 

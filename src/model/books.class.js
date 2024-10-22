@@ -51,7 +51,7 @@ export default class Books {
   }
 
   getBookById( bookId) {
-    const bookBuscado = this.data.find((book) => book.id === bookId);
+    const bookBuscado = this.data.find((book) => book.id == bookId);
     if (!bookBuscado) {
       throw new Error("No existe book con el id " + bookId);
     }
@@ -78,13 +78,13 @@ export default class Books {
   }
 
   booksFromUser( userId) {
-    const librosUsuario = this.data.filter((book) => book.userId === userId);
+    const librosUsuario = this.data.filter((book) => book.userId == userId);
 
     return librosUsuario;
   }
 
   booksFromModule(moduleCode) {
-    const librosModulo = this.data.filter((book) => book.moduleCode === moduleCode);
+    const librosModulo = this.data.filter((book) => book.moduleCode == moduleCode);
 
     return librosModulo;
   }
@@ -96,7 +96,7 @@ export default class Books {
   }
 
   booksWithStatus(status) {
-    const librosEstado = this.data.filter((book) => book.status === status);
+    const librosEstado = this.data.filter((book) => book.status == status);
 
     return librosEstado;
   }
@@ -114,7 +114,7 @@ export default class Books {
   }
 
   booksOfTypeNotes() {
-    const librosEstado = this.data.filter((book) => book.publisher === NOTES);
+    const librosEstado = this.data.filter((book) => book.publisher == NOTES);
     return librosEstado;
   }
 

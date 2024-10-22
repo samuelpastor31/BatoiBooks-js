@@ -6,27 +6,30 @@ export default class View {
     this.about = document.getElementById("about");
     this.form = document.getElementById("form");
     this.messages = document.getElementById("messages");
+    
   }
 
   renderModulesOptions(modules) {
     modules.forEach((module) => {
       const option = document.createElement("option");
       option.setAttribute("value", module.code);
-      option.innerHTML = module.code+" - "+module.cliteral;
+      option.innerHTML = module.cliteral;
 
       const select = document.getElementById("id-module");
       select.appendChild(option);
     });
   }
 
-  renderBook(book) {
+  renderBook(book, module) {
     const ventaOVendido = (book.soldDate) ? 'Vendido el '+book.soldDate : 'En venta';
     const div = document.createElement("div");
-    div.innerHTML = `<div class="Libro">
-                    <h3>Libro: (${book.id})</h3>
+    div.className = "Libro";
+    div.id = book.id;
+    
+    div.innerHTML = `<h3>Libro: (${book.id})</h3>
                     <h4>Editorial ${book.publisher}</h4>
                     <p>${book.pages} páginas</p>
-                    <p>Modulo: ${book.moduleCode}</p>
+                    <p>Modulo: ${module.vliteral}</p>
                     <p>Estado: ${book.status}</p>
                     <p>${ventaOVendido} </p>
                     <p>${book.comments}</p>
@@ -42,8 +45,7 @@ export default class View {
 
   renderMessage(message, isInfo) {
     const li = document.createElement("div");
-  
-    // Definimos los estilos en línea para cada tipo de alerta.
+
     const alertStyle = isInfo
       ? "background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; padding: 10px; margin: 10px 0; border-radius: 5px;"
       : "background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin: 10px 0; border-radius: 5px;";
@@ -57,6 +59,12 @@ export default class View {
       </div>`;
   
     this.messages.append(li);
+
+    if (isInfo) {
+      setTimeout(() => {
+        li.remove();
+      }, 3000); // 3 segundos
+    }
   }
   
   

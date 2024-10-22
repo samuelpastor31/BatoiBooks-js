@@ -59,7 +59,7 @@ export default class Books {
   }
 
   getBookIndexById( bookId) {
-    const bookBuscado = this.data.findIndex((book) => book.id === bookId);
+    const bookBuscado = this.data.findIndex((book) => book.id == bookId);
     if (bookBuscado === -1) {
       throw new Error("No existe book con el id " + bookId);
     }

@@ -1,4 +1,4 @@
-import "./style.css";
+import "./src/view/styles.css";
 import batoiLogo from "/logoBatoi.png";
 import Controller from "./src/controller/controller.class";
 
@@ -19,17 +19,19 @@ document.querySelector("#app").innerHTML = `
     <div id="form"></div>
     <div id="about"></div>
     <div id="messages"></div>
-    <div>
-      <label for="id-remove">Id:</label>
-      <input type="text" id="id-remove">
-      <button id="remove">Borrar libro</button>
-    </div>
+  </header>
     <form id="bookForm">
+      <h2 id="titleForm">Añadir libro</h3>
+      <div id="divId" hidden>
+        <label for="id">ID:</label>
+        <input type="text" id="id" disabled>
+      </div>
       <div>
         <label for="id-module">Módulo:</label>
-        <select id="id-module">
+        <select id="id-module" required>
           <option>- Selecciona un módulo -</option>
         </select>
+        <span class="error"></span>
       </div>
 
       <div>
@@ -49,11 +51,11 @@ document.querySelector("#app").innerHTML = `
 
       <div>
         <label>Estado:</label>
-        <input type="radio" id="status" name="status" value="good" required>
+        <input type="radio" name="status" value="good" required>
         <label for="good">Bueno</label>
-        <input type="radio" id="status" name="status" value="bad" required>
+        <input type="radio" name="status" value="bad" required>
         <label for="bad">Malo</label>
-        <input type="radio" id="status" name="status" value="new" required>
+        <input type="radio" name="status" value="new" required>
         <label for="new">Nuevo</label>
       </div>
 
@@ -62,7 +64,7 @@ document.querySelector("#app").innerHTML = `
         <textarea id="comments"></textarea>
       </div>
 
-      <button type="submit">Añadir</button>
+      <button id = "btnAdd" type="submit">Añadir</button>
       <button type="reset">Reset</button>
     </form>
     <footer>

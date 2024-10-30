@@ -20,14 +20,6 @@ export default class Books {
   async addBook(libro) {
     const libroNuevo = await addBook(libro);
     const newBook = new Book(libroNuevo);
-    if (this.data.length === 0) {
-      newBook.id = 1;
-    } else {
-      const bookIdMaximo = this.data.reduce((max, book) =>
-        book.id > max.id ? book : max
-      );
-      newBook.id = bookIdMaximo.id + 1;
-    }
     this.data.push(newBook);
     return newBook;
   }

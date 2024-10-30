@@ -20,14 +20,6 @@ export default class Users {
   async addUser(user) {
     await addDBUser(user);
     const newUser = new User(user.id, user.nick, user.email, user.password);
-    if (this.data.length === 0) {
-      newUser.id = 1;
-    }else if (this.data.length != 0) {
-      const userIdMaximo = this.data.reduce((max, user) =>
-        user.id > max.id ? user : max
-      );
-      newUser.id = userIdMaximo.id + 1;
-    }
     this.data.push(newUser);
     return newUser;
   }

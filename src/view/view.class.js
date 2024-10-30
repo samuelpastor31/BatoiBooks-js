@@ -131,6 +131,13 @@ export default class View {
   }
 
   resetView() {
+    const enlace = document.getElementById('add');
+    enlace.addEventListener("click", () => {
+      this.title.innerHTML = "Añadir libro";
+      this.bookForm.querySelector("#btnAdd").textContent = "Añadir";
+      this.divId.setAttribute("hidden", true);
+      this.bookForm.reset();
+    })
     this.title.innerHTML = "Añadir libro";
     this.bookForm.querySelector("#btnAdd").textContent = "Añadir";
     this.divId.setAttribute("hidden", true);

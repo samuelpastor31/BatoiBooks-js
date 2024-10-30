@@ -18,6 +18,7 @@ export default class Controller {
 
   async init() {
     try {
+      this.view.resetView();
       this.view.setBookSubmitHandler(this.handleSubmitBook.bind(this));
       //this.view.setBookRemoveHandler(this.handleRemoveBook.bind(this));
       await Promise.all([

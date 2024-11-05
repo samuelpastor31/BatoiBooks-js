@@ -22,10 +22,10 @@ export default class Controller {
       this.view.setBookSubmitHandler(this.handleSubmitBook.bind(this));
       //this.view.setBookRemoveHandler(this.handleRemoveBook.bind(this));
       await Promise.all([
-        await this.model.modules.populate(),
-        await this.model.users.populate(),
-        await this.model.books.populate(),
-        await this.cart.populate(),
+        this.model.modules.populate(),
+        this.model.users.populate(),
+        this.model.books.populate(),
+        this.cart.populate(),
       ]);
 
       this.view.renderModulesOptions(this.model.modules.data);
@@ -46,9 +46,9 @@ export default class Controller {
   }
 
   async handleSubmitBook(payload) {
+    //if payload id existe entonces es un update
     try {
-      if (document.getElementById("bookForm").querySelector("#btnAdd").textContent == "Cambiar") {
-
+      if (payload.id) {
         alert("form enviado para modificar libro");
         const bookToModify = await this.model.books.getBookById(payload.id);
 
@@ -62,20 +62,21 @@ export default class Controller {
         await this.model.books.changeBook(bookToModify);
 
         const card = document.getElementById(bookToModify.id);
-        if (card){
+        if (card) {
           card.querySelector(".publisher").textContent = bookToModify.publisher;
-          card.querySelector(".price").textContent = bookToModify.price +" €";
+          card.querySelector(".price").textContent = bookToModify.price + " €";
           card.querySelector(".pages").textContent = bookToModify.pages;
           card.querySelector(".status").textContent = bookToModify.status;
           card.querySelector(".comments").textContent = bookToModify.comments;
-          card.querySelector(".vliteral").textContent = this.model.modules.getModuleByCode(bookToModify.moduleCode).vliteral;
+          card.querySelector(".vliteral").textContent =
+            this.model.modules.getModuleByCode(
+              bookToModify.moduleCode
+            ).vliteral;
         }
 
         this.view.renderMessage(true, "Libro modificado");
         this.view.resetView();
-
       } else {
-
         alert("form enviado para añadir libro");
         console.log(payload);
         const newBook = await this.model.books.addBook(new Book(payload));

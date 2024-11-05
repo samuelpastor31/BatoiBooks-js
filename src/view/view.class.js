@@ -86,6 +86,7 @@ export default class View {
     this.bookForm.addEventListener("submit", (event) => {
       event.preventDefault();
       // a continuación recoge los datos del formulario y los guarda en un objeto // por último llama a la función recibida pasándole dicho objeto
+      const id = document.getElementById("id").value;
       const moduleCode = document.getElementById("id-module").value;
       const publisher = document.getElementById("publisher").value;
       const price = document.getElementById("price").value;
@@ -94,23 +95,16 @@ export default class View {
         'input[name="status"]:checked'
       ).value;
       const comments = document.getElementById("comments").value;
-
-      if (this.bookForm.querySelector("#btnAdd").textContent == "Añadir") {
-        const book = { moduleCode, publisher, price, pages, status, comments };
-        callback(book);
-      } else {
-        const id = document.getElementById("id").value;
-        const book = {
-          id,
-          moduleCode,
-          publisher,
-          price,
-          pages,
-          status,
-          comments,
-        };
-        callback(book);
-      }
+      const book = {
+        id,
+        moduleCode,
+        publisher,
+        price,
+        pages,
+        status,
+        comments,
+      };
+      callback(book);
     });
   }
 
@@ -131,13 +125,13 @@ export default class View {
   }
 
   resetView() {
-    const enlace = document.getElementById('add');
+    const enlace = document.getElementById("add");
     enlace.addEventListener("click", () => {
       this.title.innerHTML = "Añadir libro";
       this.bookForm.querySelector("#btnAdd").textContent = "Añadir";
       this.divId.setAttribute("hidden", true);
       this.bookForm.reset();
-    })
+    });
     this.title.innerHTML = "Añadir libro";
     this.bookForm.querySelector("#btnAdd").textContent = "Añadir";
     this.divId.setAttribute("hidden", true);

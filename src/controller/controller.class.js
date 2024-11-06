@@ -48,49 +48,52 @@ export default class Controller {
   async handleSubmitBook(payload) {
     //if payload id existe entonces es un update
     try {
-      if (payload.id) {
-        alert("form enviado para modificar libro");
-        const bookToModify = await this.model.books.getBookById(payload.id);
+      if (!payload.id) {
+        if (await this.model.books.bookInModule(payload.userId, payload.moduleCode) == false) {
+          console.log(payload);
+          const newBook = await this.model.books.addBook(new Book(payload));
 
-        bookToModify.moduleCode = payload.moduleCode;
-        bookToModify.publisher = payload.publisher;
-        bookToModify.price = payload.price;
-        bookToModify.pages = payload.pages;
-        bookToModify.status = payload.status;
-        bookToModify.comments = payload.comments;
+          const bookUI2 = this.view.renderBook(
+            newBook,
+            this.model.modules.getModuleByCode(newBook.moduleCode)
+          );
 
-        await this.model.books.changeBook(bookToModify);
+          this.removeBookWithButton(bookUI2, newBook);
+          this.addBookToCartWithButton(bookUI2, newBook);
+          this.modifyBookWithButton(bookUI2, newBook);
 
-        const card = document.getElementById(bookToModify.id);
+          this.view.renderMessage(true, "Libro añadido");
+          this.view.resetView();
+        } else {
+          console.log("El usuario ya tiene un libro creado en ese módulo");
+        const idModuleInput = this.view.moduleInput;
+          // Configurar el mensaje de error si el usuario ya tiene un libro en ese módulo
+        idModuleInput.setCustomValidity("El usuario ya tiene un libro creado en ese módulo");
+        
+        const spanError = document.querySelector(".errorModule");
+        spanError.innerHTML = idModuleInput.validationMessage; // Mostrar el mensaje de error
+
+        idModuleInput.reportValidity(); // Mostrar el error en la UI
+  
+        }
+      } else {
+        console.log("form enviado para modificar libro");
+
+        await this.model.books.changeBook(payload);
+
+        const card = document.getElementById(payload.id);
         if (card) {
-          card.querySelector(".publisher").textContent = bookToModify.publisher;
-          card.querySelector(".price").textContent = bookToModify.price + " €";
-          card.querySelector(".pages").textContent = bookToModify.pages;
-          card.querySelector(".status").textContent = bookToModify.status;
-          card.querySelector(".comments").textContent = bookToModify.comments;
+          card.querySelector(".publisher").textContent = payload.publisher;
+          card.querySelector(".price").textContent = payload.price + " €";
+          card.querySelector(".pages").textContent = payload.pages;
+          card.querySelector(".status").textContent = payload.status;
+          card.querySelector(".comments").textContent = payload.comments;
           card.querySelector(".vliteral").textContent =
-            this.model.modules.getModuleByCode(
-              bookToModify.moduleCode
-            ).vliteral;
+            this.model.modules.getModuleByCode(payload.moduleCode).vliteral;
         }
 
         this.view.renderMessage(true, "Libro modificado");
         this.view.resetView();
-      } else {
-        alert("form enviado para añadir libro");
-        console.log(payload);
-        const newBook = await this.model.books.addBook(new Book(payload));
-
-        const bookUI2 = this.view.renderBook(
-          newBook,
-          this.model.modules.getModuleByCode(newBook.moduleCode)
-        );
-
-        this.removeBookWithButton(bookUI2, newBook);
-        this.addBookToCartWithButton(bookUI2, newBook);
-        this.modifyBookWithButton(bookUI2, newBook);
-
-        this.view.renderMessage(true, "Libro añadido");
       }
     } catch (error) {
       this.view.renderMessage(false, error);

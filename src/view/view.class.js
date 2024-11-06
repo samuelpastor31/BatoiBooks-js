@@ -8,7 +8,18 @@ export default class View {
     this.messages = document.getElementById("messages");
     this.title = document.getElementById("titleForm");
     this.divId = document.getElementById("divId");
+    this.moduleInput = document.getElementById("id-module");
+
+    // Limpia el mensaje de error personalizado cuando cambia el módulo
+  this.moduleInput.addEventListener("change", () => {
+    this.moduleInput.setCustomValidity("");
+    const spanError = document.querySelector(".errorModule");
+    if (spanError) {
+      spanError.innerHTML = "";
+    }
+  });
   }
+
 
   renderModulesOptions(modules) {
     modules.forEach((module) => {
@@ -85,26 +96,97 @@ export default class View {
   setBookSubmitHandler(callback) {
     this.bookForm.addEventListener("submit", (event) => {
       event.preventDefault();
+
       // a continuación recoge los datos del formulario y los guarda en un objeto // por último llama a la función recibida pasándole dicho objeto
-      const id = document.getElementById("id").value;
-      const moduleCode = document.getElementById("id-module").value;
-      const publisher = document.getElementById("publisher").value;
-      const price = document.getElementById("price").value;
-      const pages = document.getElementById("pages").value;
-      const status = document.querySelector(
+      const id = document.getElementById("id")?.value ?? null;
+      const moduleCode = document.getElementById("id-module")?.value ?? null;
+      const publisher = document.getElementById("publisher")?.value ?? null;
+      const price = document.getElementById("price")?.value ?? null;
+      const pages = document.getElementById("pages")?.value ?? null;
+      const status =
+        document.querySelector('input[name="status"]:checked')?.value ?? null;
+      const comments = document.getElementById("comments")?.value ?? null;
+      const userId = 2; //TEMPORALMENTE HASTA HACER LOGIN
+
+      // Limpiar mensajes de error anteriores para que no se acumulen
+      const errorMessages = document.querySelectorAll(
+        ".error, .errorModule, .errorStatus"
+      );
+      errorMessages.forEach((span) => (span.innerHTML = ""));
+
+      let isValid = true;
+
+      //revisar module no funciona
+      const idModuleInput = document.getElementById("id-module");
+      if ( idModuleInput.value === "- Selecciona un módulo -" ) {
+        const spanError = document.querySelector(".errorModule");
+        spanError.innerHTML = "El módulo es obligatorio";
+        isValid = false;
+      }
+
+      const publisherInput = document.getElementById("publisher");
+      if (!publisherInput.checkValidity()) {
+        const spanError = publisherInput.nextElementSibling;
+        spanError.innerHTML = "La editorial es obligatoria";
+        isValid = false;
+      }
+
+      const priceInput = document.getElementById("price");
+      if (!priceInput.checkValidity()) {
+        const spanError = priceInput.nextElementSibling;
+        if (priceInput.validity.valueMissing) {
+          spanError.innerHTML = "El precio es obligatorio";
+        } else if (priceInput.validity.rangeUnderflow) {
+          spanError.innerHTML = "El precio no puede ser negativo";
+        } else {
+          spanError.innerHTML =
+            "El precio debe tener formato numérico, con céntimos opcionales";
+        }
+        isValid = false;
+      }
+
+      const pagesInput = document.getElementById("pages");
+      if (!pagesInput.checkValidity()) {
+        const spanError = pagesInput.nextElementSibling;
+        if (pagesInput.validity.valueMissing) {
+          spanError.innerHTML = "El número de páginas es obligatorio";
+        } else if (pagesInput.validity.rangeUnderflow) {
+          spanError.innerHTML = "Las páginas no pueden ser negativas";
+        } else {
+          spanError.innerHTML = "Debe introducir un número entero";
+        }
+        isValid = false;
+      }
+
+      const statusInput = document.querySelector(
         'input[name="status"]:checked'
-      ).value;
-      const comments = document.getElementById("comments").value;
-      const book = {
-        id,
-        moduleCode,
-        publisher,
-        price,
-        pages,
-        status,
-        comments,
-      };
-      callback(book);
+      );
+      if (!statusInput) {
+        const spanError = document.getElementsByClassName("errorStatus")[0];
+        spanError.innerHTML = "El estado es obligatorio";
+        isValid = false;
+      }
+
+      // Si todos los campos son válidos, ejecutar el callback con los datos del libro
+      if (isValid) {
+        const book = {
+          userId: userId,
+          moduleCode: idModuleInput.value,
+          publisher: publisherInput.value,
+          price: parseFloat(priceInput.value),
+          pages: pagesInput.value,
+          status: statusInput.value,
+          comments: document.getElementById("comments").value,
+        };
+
+        // Meter el id si existe
+        const id = document.getElementById("id").value;
+        if (id) {
+          book.id = id;
+        }
+
+        callback(book);
+      }
     });
   }
 
@@ -145,22 +227,5 @@ export default class View {
   //     const idToRemove = parseInt(idLibro);
   //     callback(idToRemove);
   //   });
-  // }
-
-  //   if(this.bookForm.checkValidity()) {
-  //     callback(book);
-  //   }else{
-  //     const inputs = ['id-module', 'publisher', 'price', 'pages', 'status', 'comments'];
-  //     const priceInput = document.getElementById("price");
-  //     if(!priceInput.checkValidity()){
-  //       const spanError = priceInput.nextElementSibling;
-  //       if (priceInput.validity.valueMissing) {
-  //         spanError.innerHTML = "El precio es obligatorio";
-  //       }
-  //       if(priceInput.validity.rangeUnderflow){
-  //         spanError.innerHTML = priceInput.validationMessage;
-
-  //       }
-  //   }
   // }
 }

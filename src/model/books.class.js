@@ -3,6 +3,7 @@ import { getDBBooks } from "../services/books.api";
 import { changeDBBook } from "../services/books.api";
 import { addBook } from "../services/books.api";
 import { removeDBBook } from "../services/books.api";
+import { checkBookInModuleDBBook } from "../services/books.api"
 const NOTES = "Apunts";
 
 export default class Books {
@@ -114,5 +115,13 @@ export default class Books {
     const librosEstado = this.data.filter((book) => book.soldDate == "");
 
     return librosEstado;
+  }
+
+  async bookInModule(userId, moduleCode){
+    if(await checkBookInModuleDBBook(userId, moduleCode)){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

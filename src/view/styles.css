@@ -147,3 +147,15 @@
     border-radius: 10px;
     max-width: 1000px;
 }
+
+.error{
+    color: red;
+}
+
+.errorModule{
+    color: red;
+}
+
+.errorStatus{
+    color: red;
+}

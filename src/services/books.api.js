@@ -1,3 +1,6 @@
+import { getDBModule } from "./modules.api";
+import { getDBUser } from "./users.api";
+
 const SERVER = import.meta.env.VITE_URL_API;
 
     async function getDBBooks(){
@@ -61,6 +64,34 @@ const SERVER = import.meta.env.VITE_URL_API;
         }
         const data = await response.json();
         return data;
-    }       
+    }
+    
+    //prohibir  que un usuario pueda añadir mas de un libro del mismo modulo
+    //
+    async function checkBookInModuleDBBook(userId,moduleCode){
 
-    export {getDBBooks, getDBBook, addBook, removeDBBook, changeDBBook}
+        const reponse = await fetch(SERVER + '/books?userId='+userId+'&moduleCode='+moduleCode)
+        if(!reponse.ok) {
+            throw `Error ${reponse.status} de la BBDD: ${reponse.statusText}`
+        }
+        const allBooks = await reponse.json();
+
+        if (allBooks.length > 0){
+            return true;
+        }
+        return false;
+
+        // const allBooks = await getDBBooks();
+        // allBooks.forEach(bookDB => {
+        //     if (bookDB.moduleCode == book.moduleCode){
+        //         if (bookDB.userId == book.userId){
+        //             return true;
+        //         }
+        //         return false;
+        //     }
+        //     return false;
+        // });
+        
+    }
+
+    export {getDBBooks, getDBBook, addBook, removeDBBook, changeDBBook, checkBookInModuleDBBook}

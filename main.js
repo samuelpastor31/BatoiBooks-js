@@ -15,8 +15,8 @@ document.querySelector("#app").innerHTML = `
         <li><a href="#messages"></a></li>
       </ul>
     </nav>
-    <div id="list"></div>
-    <div id="form"></div>
+    <div id="list" ></div>
+    <div id="form" ></div>
     <div id="about"></div>
     <div id="messages"></div>
   </header>
@@ -72,7 +72,7 @@ document.querySelector("#app").innerHTML = `
       <button id = "btnAdd" type="submit">Añadir</button>
       <button type="reset">Reset</button>
     </form>
-    <footer>
+    <footer id="aboutFooter">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos doloremque dolores!
     </footer>
   </header>

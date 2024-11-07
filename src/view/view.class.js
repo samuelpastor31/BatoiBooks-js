@@ -191,6 +191,9 @@ export default class View {
   }
 
   modifyView(book, module) {
+    //al darle a modificar desde el #list se muestra el formulario de edicion
+    window.location="#form";
+    
     this.title.innerHTML = "Editar libro";
     this.divId.removeAttribute("hidden");
     const id = (this.bookForm.querySelector("#id").value = book.id);
@@ -219,13 +222,4 @@ export default class View {
     this.divId.setAttribute("hidden", true);
     this.bookForm.reset();
   }
-
-  // setBookRemoveHandler(callback) {
-  //   this.remove.addEventListener("click", () => {
-  //     // recoge la id del libro a borrar y la pasa a la fn
-  //     const idLibro = document.getElementById("id-remove").value;
-  //     const idToRemove = parseInt(idLibro);
-  //     callback(idToRemove);
-  //   });
-  // }
 }

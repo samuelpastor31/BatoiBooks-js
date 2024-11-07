@@ -4,6 +4,7 @@ import Books from "../model/books.class";
 import View from "../view/view.class";
 import Book from "../model/book.class";
 import Cart from "../model/cart.class";
+import Router from "../services/router.js";
 
 export default class Controller {
   constructor() {
@@ -14,6 +15,7 @@ export default class Controller {
     };
     this.view = new View();
     this.cart = new Cart();
+    this.router = new Router();
   }
 
   async init() {

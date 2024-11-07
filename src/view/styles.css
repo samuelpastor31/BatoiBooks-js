@@ -1,4 +1,5 @@
 /* Resetting default browser styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -53,6 +54,22 @@
   
   #list, #form, #about, #messages {
     margin-top: 20px;
+  }
+
+  /* #list{
+    display: none;
+  }
+
+  #bookForm{
+    display: none;
+  }
+  
+  #aboutFooter{
+    display: none;
+  } */
+
+  .hidden{
+    display: none !important;
   }
   
   form {

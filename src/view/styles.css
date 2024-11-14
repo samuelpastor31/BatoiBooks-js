@@ -145,13 +145,34 @@ footer {
   }
 }
 
+#list {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten a nuevas líneas */
+  gap: 30px; /* Espacio entre las tarjetas */
+  justify-content: center; /* Centra las tarjetas horizontalmente */
+  margin-top: 20px;
+}
+
+#menu {
+  background-color: rgb(6, 115, 134);
+  border-radius: 20px;
+  width: 700px;
+  justify-self: center;
+}
+
 .card {
   background-color: gray;
-  margin: 10px auto; /* Centra la tarjeta horizontalmente */
   padding: 10px;
   border-radius: 10px;
-  max-width: 700px; /* Ajusta el ancho máximo según prefieras */
-  text-align: center; /* Opcional: centra el contenido de texto */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño del elemento */
+  text-align: center;
+}
+
+/* Para pantallas más grandes (por ejemplo, tabletas o escritorios) */
+@media (min-width: 768px) {
+  .card {
+    width: calc(25% - 20px); /* 4 tarjetas por fila */
+  }
 }
 
 

@@ -7,7 +7,7 @@ document.querySelector("#app").innerHTML = `
     <img src="${batoiLogo}" alt="Logo Batoi" />
     <h1>BatoiBooks</h1>
     <h3>Control de libros</h3>
-    <nav>
+    <nav id="menu">
       <ul>
         <li><a href="#list">Ver Libros</a></li>
         <li><a href="#form" id="add">Añadir Libro</a></li>
